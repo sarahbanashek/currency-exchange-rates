@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip } from 'recharts';
+import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, Label, ResponsiveContainer } from 'recharts';
 
 function App() {
   const [url, setUrl] = useState('https://api.ratesapi.io/api/latest');
@@ -19,6 +19,7 @@ function App() {
 
       const newData = {
         base: json.base,
+        date: json.date,
         rates
       }
 
@@ -29,14 +30,23 @@ function App() {
     fetchData();
   }, [url]);
 
-  // console.log(data);
+  const selectBaseCurrencyProps = {
+    setUrl,
+    data
+  }
 
   return (
     <div className="App">
-      {isLoading ? <p>Loading</p> : <div id="base-currency">{data.base}</div>}
+      {isLoading ? <p>Loading</p> : <SelectBaseAndDate value={selectBaseCurrencyProps} />}
       {isLoading ? <p>Loading</p> : <ChartDisplayComponent value={{data, isLoading}} />}
     </div>
   );
+}
+
+function SelectBaseAndDate(props) {
+  return (
+    <div> Under Construction </div>
+  )
 }
 
 function CustomizedAxisTick({x, y, stroke, payload}) {
@@ -88,19 +98,36 @@ function getFillColor(rates) {
 
 function ChartDisplayComponent(props) {
   const rates = props.value.data.rates;
+  const base = props.value.data.base;
+  const propsDate = props.value.data.date.split('-');
+  const months = [0, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const titleDate = `${months[propsDate[1]]} ${propsDate[2]}, ${propsDate[0]}`;
+
   return (
-    <BarChart width={1000} height={400} margin={{bottom: 20}} data={rates}>
-      <XAxis dataKey="abbreviation" interval={0} minTickGap={20} tick={<CustomizedAxisTick />} />
-      <YAxis dataKey="rate" domain={[0.01, 'auto']} scale="log"/>
-      <Tooltip content={<CustomTooltip />} />
-      <Bar dataKey="rate" unit={props.value.data.base} >
-        {
-          rates.map((entry, index) => (
-            <Cell key={index} fill={getFillColor(entry.rate)} />
-          ))
-        }
-      </Bar>
-  </BarChart>
+    <div id="chart" >
+      <div id="chart-title">
+        Exchange Rates for the {getCurrencyName(base)} on {titleDate}
+      </div>
+      <ResponsiveContainer class="chart-container" width="95%" height={400} >
+        <BarChart margin={{top: 50, bottom: 50, left: 20}} data={rates}>
+          <XAxis dataKey="abbreviation" interval={0} minTickGap={20} tick={<CustomizedAxisTick />} >
+            <Label value="World Currencies" offset={10} position="bottom" />
+          </XAxis>
+          <YAxis dataKey="rate" domain={[0.01, 'auto']} scale="log" >
+            <Label value="Exchange Rate" angle={-90} position="left" />
+          </YAxis>
+          <Tooltip content={<CustomTooltip />} />
+          <Bar dataKey="rate" unit={base} >
+            {
+              rates.map((entry, index) => (
+                <Cell key={index} fill={getFillColor(entry.rate)} />
+              ))
+            }
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+   
   );
 }
 
