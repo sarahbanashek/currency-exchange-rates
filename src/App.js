@@ -1,13 +1,20 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, Label, ResponsiveContainer } from 'recharts';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 function App() {
   const [url, setUrl] = useState('https://api.ratesapi.io/api/latest');
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
+
+function selectBase(eventKey) {
+  setUrl('https://api.ratesapi.io/api/latest?base=' + eventKey);
+}
+
   useEffect(() => {
+    console.log('in effect')
     async function fetchData() {
       setIsLoading(true);
       const response = await fetch(url);
@@ -30,22 +37,28 @@ function App() {
     fetchData();
   }, [url]);
 
-  const selectBaseCurrencyProps = {
-    setUrl,
-    data
-  }
-
   return (
     <div className="App">
-      {isLoading ? <p>Loading</p> : <SelectBaseAndDate value={selectBaseCurrencyProps} />}
-      {isLoading ? <p>Loading</p> : <ChartDisplayComponent value={{data, isLoading}} />}
+      {isLoading ? <p>Loading</p> : <SelectBaseAndDate {...{selectBase}} />}
+      {isLoading ? <p>Loading</p> : <ChartDisplayComponent {...{data}} />}
     </div>
   );
 }
 
-function SelectBaseAndDate(props) {
+function SelectBaseAndDate({selectBase}) {
   return (
-    <div> Under Construction </div>
+    <div id="select-base-date">
+      <Dropdown>
+        <Dropdown.Toggle id="dropdown-basic">
+          Base Currency
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          {Object.keys(currencyNames).map((currency) => (
+            <Dropdown.Item as="button" key={currency} onSelect={() => selectBase(currency)} >{currency}</Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
+    </div>
   )
 }
 
@@ -96,10 +109,10 @@ function getFillColor(rates) {
   }
 }
 
-function ChartDisplayComponent(props) {
-  const rates = props.value.data.rates;
-  const base = props.value.data.base;
-  const propsDate = props.value.data.date.split('-');
+function ChartDisplayComponent({data}) {
+  const rates = data.rates;
+  const base = data.base;
+  const propsDate = data.date.split('-');
   const months = [0, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const titleDate = `${months[propsDate[1]]} ${propsDate[2]}, ${propsDate[0]}`;
 
