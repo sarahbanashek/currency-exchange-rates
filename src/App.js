@@ -1,16 +1,39 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, Label, ResponsiveContainer } from 'recharts';
-import Dropdown from 'react-bootstrap/Dropdown';
 
 function App() {
   const [url, setUrl] = useState('https://api.ratesapi.io/api/latest');
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [chartDate, setChartDate] = useState();
+  const [baseCurrency, setBaseCurrency] = useState();
 
 
-function selectBase(eventKey) {
-  setUrl('https://api.ratesapi.io/api/latest?base=' + eventKey);
+function updateUrl(symbols) {
+  if (chartDate && baseCurrency && symbols) {
+    setUrl(`https://api.ratesapi.io/api/${chartDate}?base=${baseCurrency}&symbols=${symbols}`);
+  } else if (chartDate && baseCurrency) {
+    setUrl(`https://api.ratesapi.io/api/${chartDate}?base=${baseCurrency}`);
+  } else if (chartDate && symbols) {
+    setUrl(`https://api.ratesapi.io/api/${chartDate}?symbols=${symbols}`);
+  } else if (chartDate) {
+    setUrl(`https://api.ratesapi.io/api/${chartDate}`);
+  } else if (baseCurrency && symbols) {
+    setUrl(`https://api.ratesapi.io/api/latest?base=${baseCurrency}&symbols=${symbols}`);
+  } else if (baseCurrency) {
+    setUrl(`https://api.ratesapi.io/api/latest?base=${baseCurrency}`);
+  } else if (symbols) {
+    setUrl(`https://api.ratesapi.io/api/latest?symbols=${symbols}`);
+  }
+}
+
+function updateChartDate(date) {
+  setChartDate(date);
+}
+
+function updateBaseCurrency(newBase) {
+  setBaseCurrency(newBase);
 }
 
   useEffect(() => {
@@ -39,27 +62,92 @@ function selectBase(eventKey) {
 
   return (
     <div className="App">
-      {isLoading ? <p>Loading</p> : <SelectBaseAndDate {...{selectBase}} />}
+      <div id="title">World Currencies and Exchange Rates</div>
+      {isLoading ? <p>Loading</p> : <SelectDate {...{updateUrl, updateChartDate}} />}
       {isLoading ? <p>Loading</p> : <ChartDisplayComponent {...{data}} />}
+      {isLoading ? <p>Loading</p> : <SelectBaseAndSymbols {...{updateUrl, data, updateBaseCurrency}} />}
     </div>
   );
 }
 
-function SelectBaseAndDate({selectBase}) {
+function SelectDate({updateUrl, updateChartDate}) {
+  const today = new Date().toISOString().split("T")[0];
+  function changeDate() {
+    updateChartDate(document.getElementById('date').value);
+  }
+  function submit() {
+    updateUrl();
+  }
   return (
-    <div id="select-base-date">
-      <Dropdown>
-        <Dropdown.Toggle id="dropdown-basic">
-          Base Currency
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          {Object.keys(currencyNames).map((currency) => (
-            <Dropdown.Item as="button" key={currency} onSelect={() => selectBase(currency)} >{currency}</Dropdown.Item>
-          ))}
-        </Dropdown.Menu>
-      </Dropdown>
+    <div id="select-date">
+      <label htmlFor="date">Select a date (from January 4th, 1999)</label>
+      <input type="date" id="date"
+          min="1999-01-04" 
+          max={today}
+          pattern="\d{4}-\d{2}-\d{2}"
+          placeholder="yyyy-mm-dd"
+          onChange={() => changeDate()}></input>
+      <button type="button" id="update-date-button" onClick={() => submit()} >Submit</button>
     </div>
-  )
+  );
+}
+
+function SelectBaseAndSymbols({updateUrl, data, updateBaseCurrency}) {
+  let base, symbols, isEURListed;
+  const availableSymbols = data.rates.map(rateObj => {
+    if (rateObj.abbreviation === 'EUR') isEURListed = true;
+    return rateObj.abbreviation;
+  });
+  function selectBase() {
+    base = document.getElementById('base-currency').value;
+    updateBaseCurrency(base);
+  }
+  function selectSymbols(symbol) {
+    symbols
+      ? symbols += `,${document.getElementById('checkbox-' + symbol).value}`
+      : symbols = document.getElementById('checkbox-' + symbol).value;
+  }
+  function submit() {
+    if (symbols) {
+      updateUrl(symbols);
+    } else {
+      updateUrl();
+    }
+  }
+  console.log(data.rates);
+  console.log(data.base);
+
+  return (
+    <div id="customize-chart">
+      <label htmlFor="base-currency">Select base currency</label>
+      <select name="base-currency" id="base-currency" defaultValue={data.base} onChange={() => selectBase()}>
+        {!isEURListed
+          ? (<option key='EUR' value='EUR' >EUR</option>)
+          : null
+        }
+        {availableSymbols.map(currency => 
+          <option key={currency} value={currency} >{currency}</option>
+        )}
+      </select>
+      <fieldset>
+        <legend>Narrow down the currencies you're comparing:</legend>
+          <div id="checkboxes">
+            {availableSymbols.map(currency => (
+              <div id={currency} className="checkbox-div">
+                <input type="checkbox" 
+                  id={'checkbox-' + currency} 
+                  key={currency}
+                  value={currency} 
+                  name={currency} 
+                  onChange={() => {selectSymbols(currency)}} />
+                <label htmlFor={currency}> {currency}</label>
+              </div>
+            ))}
+          </div>
+      </fieldset>
+      <button type="button" id="update-url-button" onClick={() => submit()} >Submit</button>
+    </div>
+  );
 }
 
 function CustomizedAxisTick({x, y, stroke, payload}) {
@@ -113,7 +201,20 @@ function ChartDisplayComponent({data}) {
   const rates = data.rates;
   const base = data.base;
   const propsDate = data.date.split('-');
-  const months = [0, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const months = {
+    '01': 'January',
+    '02': 'February',
+    '03': 'March',
+    '04': 'April',
+    '05': 'May',
+    '06': 'June',
+    '07': 'July',
+    '08': 'August',
+    '09': 'September',
+    '10': 'October',
+    '11': 'November',
+    '12': 'December'
+  }
   const titleDate = `${months[propsDate[1]]} ${propsDate[2]}, ${propsDate[0]}`;
 
   return (
