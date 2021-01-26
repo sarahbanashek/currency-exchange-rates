@@ -129,22 +129,21 @@ function SelectBaseAndSymbols({updateUrl, data, updateBaseCurrency}) {
           <option key={currency} value={currency} >{currency}</option>
         )}
       </select>
-      <fieldset>
-        <legend>Narrow down the currencies you're comparing:</legend>
-          <div id="checkboxes">
-            {availableSymbols.map(currency => (
-              <div id={currency} className="checkbox-div">
-                <input type="checkbox" 
-                  id={'checkbox-' + currency} 
-                  key={currency}
-                  value={currency} 
-                  name={currency} 
-                  onChange={() => {selectSymbols(currency)}} />
-                <label htmlFor={currency}> {currency}</label>
-              </div>
-            ))}
+      <div id="checkboxes-label">Narrow down the currencies you're comparing:</div>
+      <div id="checkboxes">
+        {availableSymbols.map(currency => (
+          <div id={currency} className="checkbox-div">
+            <input type="checkbox" 
+              id={'checkbox-' + currency} 
+              key={currency}
+              value={currency} 
+              name={currency} 
+              title={getCurrencyName(currency)} 
+              onChange={() => {selectSymbols(currency)}} />
+            <label htmlFor={currency}> {currency}</label>
           </div>
-      </fieldset>
+        ))}
+      </div>
       <button type="button" id="update-url-button" onClick={() => submit()} >Submit</button>
     </div>
   );
@@ -177,23 +176,25 @@ function CustomTooltip({ active, payload, label }) {
 
 function getFillColor(rates) {
   if (rates >= 10000) {
-    return "#023858";
+    return "#057878";
   } else if (rates >= 1000) {
-    return "#045a8d";
+    return "#0f8291";
   } else if (rates >= 500) {
-    return "#0570b0";
+    return "#258bac";
   } else if (rates >= 100) {
-    return "#3690c0";
+    return "#3f97bf";
   } else if (rates >= 50) {
-    return "#74a9cf";
+    return "#5aa2ca";
   } else if (rates >= 10) {
-    return "#a6bddb";
+    return "#78add2";
+  } else if (rates >= 5) {
+    return "#96b9d9";
   } else if (rates >= 2) {
-    return "#d0d1e6";
+    return "#b2c3de";
   } else if (rates >= 1) {
-    return "#ece7f2";
+    return "#c8cee4";
   } else {
-    return "#fff7fb";
+    return "#dad7e9";
   }
 }
 
@@ -253,7 +254,9 @@ const currencyNames = {
   CHF: 'Swiss Franc',
   CNY: 'Chinese Yuan Renminbi',
   CZK: 'Czech Koruna',
+  CYP: 'Cypriot Pound',
   DKK: 'Danish Krone',
+  EEK: 'Estonian Kroon',
   EUR: 'EU Euro',
   GBP: 'Great British Pound Sterling',
   HKD: 'Hong Kong Dollar',
@@ -265,17 +268,24 @@ const currencyNames = {
   ISK: 'Icelandic Krona',
   JPY: 'Japanese Yen',
   KRW: 'South Korean Won',
+  LTL: 'Lithuanian Litas',
+  LVL: 'Latvian Lats',
+  MTL: 'Maltese Lira',
   MXN: 'Mexican Peso',
   MYR: 'Malaysian Ringgit',
   NOK: 'Norwegian Krone',
   NZD: 'New Zealand Dollar',
   PHP: 'Philippine Peso',
   PLN: 'Polish Zloty',
+  ROL: 'Romanian Leu',
   RON: 'Romanian Leu',
   RUB: 'Russian Rouble',
   SEK: 'Swedish Krona',
   SGD: 'Singapore Dollar',
+  SIT: 'Slovenian Tolar',
+  SKK: 'Slovak Koruna',
   THB: 'Thai  Baht',
+  TRL: 'Turkish Lira',
   TRY: 'Turkish Lira',
   USD: 'US Dollar',
   ZAR: 'South African Rand'
