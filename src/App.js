@@ -129,18 +129,20 @@ function SelectBaseAndSymbols({updateUrl, data, updateBaseCurrency}) {
           <option key={currency} value={currency} >{currency}</option>
         )}
       </select>
-      <div id="checkboxes-label">Narrow down the currencies you're comparing:</div>
+      <div id="checkboxes-label">Choose which currencies are displayed:</div>
       <div id="checkboxes">
         {availableSymbols.map(currency => (
           <div id={currency} className="checkbox-div">
-            <input type="checkbox" 
-              id={'checkbox-' + currency} 
-              key={currency}
-              value={currency} 
-              name={currency} 
-              title={getCurrencyName(currency)} 
-              onChange={() => {selectSymbols(currency)}} />
-            <label htmlFor={currency}> {currency}</label>
+            <label title={getCurrencyName(currency)}>
+              <input type="checkbox" hidden 
+                id={'checkbox-' + currency} 
+                key={currency}
+                value={currency} 
+                name={currency} 
+                title={getCurrencyName(currency)} 
+                onChange={() => {selectSymbols(currency)}}/>
+              <span>{currency}</span>
+            </label>
           </div>
         ))}
       </div>
@@ -149,10 +151,18 @@ function SelectBaseAndSymbols({updateUrl, data, updateBaseCurrency}) {
   );
 }
 
-function CustomizedAxisTick({x, y, stroke, payload}) {
+function CustomizedYAxisTick({x, y, _, payload}) {
   return (
     <g transform={`translate(${x},${y})`}>
-      <text x={0} y={0} dy={16} fontSize="10px" textAnchor="end" fill="#666" transform="rotate(-35)">{payload.value}</text>
+      <text x={0} y={5} textAnchor="end" fill="#404040">{Math.round(payload.value * 100)/100}</text>
+    </g>
+  );
+}
+
+function CustomizedXAxisTick({x, y, _, payload}) {
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text x={0} y={0} dy={16} fontSize="10px" textAnchor="end" fill="#404040" transform="rotate(-35)">{payload.value}</text>
     </g>
   );
 }
@@ -225,11 +235,11 @@ function ChartDisplayComponent({data}) {
       </div>
       <ResponsiveContainer class="chart-container" width="95%" height={400} >
         <BarChart margin={{top: 50, bottom: 50, left: 20}} data={rates}>
-          <XAxis dataKey="abbreviation" interval={0} minTickGap={20} tick={<CustomizedAxisTick />} >
-            <Label value="World Currencies" offset={10} position="bottom" />
+          <XAxis dataKey="abbreviation" interval={0} minTickGap={20} tick={<CustomizedXAxisTick />} >
+            <Label value="World Currencies" offset={10} position="bottom" fill="#404040" />
           </XAxis>
-          <YAxis dataKey="rate" domain={[0.01, 'auto']} scale="log" >
-            <Label value="Exchange Rate" angle={-90} position="left" />
+          <YAxis dataKey="rate" domain={[0.01, 'auto']} scale="log" tick={<CustomizedYAxisTick />} >
+            <Label value="Exchange Rate" angle={-90} offset={10} position="left" fill="#404040" />
           </YAxis>
           <Tooltip content={<CustomTooltip />} />
           <Bar dataKey="rate" unit={base} >
