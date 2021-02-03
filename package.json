@@ -1,5 +1,5 @@
 {
-  "name": "my-d3-app",
+  "name": "currency-exchange-rates",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

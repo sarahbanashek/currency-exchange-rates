@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Currency Exchange Rates",
+  "name": "World Currencies and Exchange Rates",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
