@@ -1,13 +1,147 @@
 .App {
   text-align: center;
+  margin-bottom: 2em;
+}
+
+#title {
+  font-size: x-large;
+  margin: 0.5em 2em 1em;
 }
 
 .recharts-responsive-container {
   margin : 0 auto;
 }
 
+#chart-title {
+  margin-top: 2em;
+  color: #404040;
+  font-size: larger;
+}
+
+#chart {
+  margin-bottom: 1em;
+}
+
+.recharts-rectangle:hover {
+  border: 2px solid white;
+}
+
 .custom-tooltip {
   opacity: 0.8;
   background-color: white;
-  padding: 10px;
+  padding: 10px 10px 0px;
+  border-radius: 4px;
+  border: 7px double #D0D0D0;
+}
+
+#form-container {
+  width: 95%;
+  margin: auto;
+  border: 7px double #D0D0D0;
+  border-radius: 1em;
+}
+
+#select-date {
+  margin: auto;
+  padding: 1em;
+}
+
+#date {
+  margin: 4px 10px;
+  background-color: #EFEFEF;
+  border-radius: 4px;
+  border: 1px solid #D0D0D0;
+  overflow: auto;
+}
+
+#customize-chart {
+  flex: 3;
+  margin: auto;
+  padding: 1em;
+}
+
+#base-currency {
+  margin-left: 10px;
+  margin-bottom: 2em;
+  background-color: #EFEFEF;
+  border-radius: 4px;
+  border: 1px solid #D0D0D0;
+  overflow: auto;
+}
+
+#checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2em;
+}
+
+.currency-button {
+  width: 4.0em;
+  text-align: center;
+  margin: 4px;
+  background-color: #EFEFEF;
+  border-radius: 4px;
+  border: 1px solid #D0D0D0;
+}
+
+.currency-button:focus {
+  outline-color: #258aac;
+}
+
+.selected-currency {
+  background-color: #258aac;
+  color: #fff;
+  border: 1px solid #258aac6e;
+}
+
+ .currency-button:hover {
+  background: #258aac6e;
+  border: 1px solid #258aac;
+}
+
+.currency-button span {
+  text-align: center;
+  padding: 3px 0px;
+  display: block;
+}
+
+#update-url-button {
+  margin: 4px -104.44px 4px 4px;
+  background-color: #04584917;
+  border-radius: 4px;
+  border: 1px solid #045949;
+  overflow: auto;
+  padding: 3px 8px;
+  color: #045949
+}
+
+#update-url-button:hover {
+  background: #045949;
+  color: white;
+}
+
+#update-url-button:disabled, #reset-url-button:disabled {
+  background-color: #EFEFEF;
+  border-radius: 4px;
+  border: 1px solid #D0D0D0;
+  color: #666666;
+  padding: 3px 8px;
+  overflow: auto;
+}
+
+#reset-url-button {
+  float: right;
+  margin: 4px;
+  background-color: #59041418;
+  border-radius: 4px;
+  border: 1px solid #590414;
+  overflow: auto;
+  padding: 3px 8px;
+  color: #590414;
+}
+
+#reset-url-button:hover {
+  background: #590414;
+  color: white;
 }
