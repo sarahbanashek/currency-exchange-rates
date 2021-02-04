@@ -27,7 +27,7 @@ export function ChartDisplay({data}) {
           Exchange Rates for the {getCurrencyName(base)} on {titleDate}
         </div>
         <ResponsiveContainer className="chart-container" width="95%" height={400} >
-          <BarChart margin={{top: 50, bottom: 50, left: 20}} data={rates}>
+          <BarChart margin={{top: 50, bottom: 50, left: 25}} data={rates}>
             <XAxis dataKey="abbreviation" interval={0} minTickGap={20} tick={<CustomizedXAxisTick />} >
               <Label value="World Currencies" offset={20} position="bottom" fill="#404040" />
             </XAxis>
