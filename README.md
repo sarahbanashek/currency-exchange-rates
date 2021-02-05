@@ -1,5 +1,7 @@
 # World Currencies and Exchange Rates
 
+[View the live version on Vercel](https://currency-exchange-rates.vercel.app/)
+
 This application uses [Rates API](https://ratesapi.io/documentation/) to display current and historical foreign exchange rates.
 ![Chart Display Feb 3, 2021](img/defaultChartDisplay.png)
 
