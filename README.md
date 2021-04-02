@@ -10,6 +10,12 @@ The chart can be customized using the form below. The date, base currency, and c
 
 ---
 
+## Technologies Used
+- React
+- Recharts
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
