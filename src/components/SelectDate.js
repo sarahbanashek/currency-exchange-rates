@@ -6,7 +6,7 @@ export function SelectDate({updateChartDate, isLoading, data}) {
   
     return (
       <div id="select-date">
-        <label htmlFor="date">Select a date (from January 4th, 1999)</label>
+        <label htmlFor="date">Select a date</label>
         {isLoading
           ? <input type="date" id="date"
               value={data.date}
@@ -20,6 +20,7 @@ export function SelectDate({updateChartDate, isLoading, data}) {
               placeholder="yyyy-mm-dd"
               onChange={(e) => changeDate(e)}/>
               }
+        <div id="date-info">from January 4th, 1999</div>
       </div>
     );
 }
