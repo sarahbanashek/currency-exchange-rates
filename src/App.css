@@ -27,11 +27,12 @@
 }
 
 .custom-tooltip {
-  opacity: 0.8;
+  opacity: 0.9;
   background-color: white;
   padding: 10px 10px 0px;
   border-radius: 4px;
   border: 7px double #D0D0D0;
+  font-weight: bold;
 }
 
 #form-container {
@@ -50,8 +51,13 @@
   margin: 4px 10px;
   background-color: #EFEFEF;
   border-radius: 4px;
-  border: 1px solid #D0D0D0;
+  border: 2px solid #D0D0D0;
   overflow: auto;
+}
+
+#date:focus {
+  outline: none;
+  border: 2px solid #96b9d9;
 }
 
 #customize-chart {
@@ -65,8 +71,13 @@
   margin-bottom: 2em;
   background-color: #EFEFEF;
   border-radius: 4px;
-  border: 1px solid #D0D0D0;
+  border: 2px solid #D0D0D0;
   overflow: auto;
+}
+
+#base-currency:focus {
+  outline: none;
+  border: 2px solid #96b9d9;
 }
 
 #checkboxes {
@@ -82,7 +93,7 @@
   margin: 4px;
   background-color: #EFEFEF;
   border-radius: 4px;
-  border: 1px solid #D0D0D0;
+  border: 2px solid #D0D0D0;
 }
 
 .currency-button:focus {
@@ -92,12 +103,12 @@
 .selected-currency {
   background-color: #258aac;
   color: #fff;
-  border: 1px solid #258aac6e;
+  border: 2px solid #258aac6e;
 }
 
  .currency-button:hover {
   background: #258aac6e;
-  border: 1px solid #258aac;
+  border: 2px solid #258aac;
 }
 
 .currency-button span {
@@ -108,17 +119,16 @@
 
 #update-url-button {
   margin: 4px -104.44px 4px 4px;
-  background-color: #04584917;
+  background: #045949;
+  color: white;
   border-radius: 4px;
   border: 1px solid #045949;
   overflow: auto;
   padding: 3px 8px;
-  color: #045949
 }
 
 #update-url-button:hover {
-  background: #045949;
-  color: white;
+  background: #024438;
 }
 
 #update-url-button:disabled, #reset-url-button:disabled {
@@ -133,15 +143,14 @@
 #reset-url-button {
   float: right;
   margin: 4px;
-  background-color: #59041418;
+  background: #590414;
+  color: white;
   border-radius: 4px;
   border: 1px solid #590414;
   overflow: auto;
   padding: 3px 8px;
-  color: #590414;
 }
 
 #reset-url-button:hover {
-  background: #590414;
-  color: white;
+  background: #42030e;
 }
