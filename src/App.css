@@ -60,6 +60,10 @@
   border: 2px solid #96b9d9;
 }
 
+#date-info {
+  font-size: small;
+}
+
 #customize-chart {
   flex: 3;
   margin: auto;
