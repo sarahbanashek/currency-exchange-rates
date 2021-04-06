@@ -2,11 +2,11 @@
 
 [View the live version on Vercel](https://currency-exchange-rates.vercel.app/)
 
-This application uses [Rates API](https://ratesapi.io/documentation/) to display current and historical foreign exchange rates.
-![Chart Display Feb 3, 2021](img/defaultChartDisplay.png)
+This application uses [Rates API](https://ratesapi.io/documentation/) to display current and historical foreign exchange rates.  
+![Chart Display Feb 3, 2021](img/fullPage.png)
 
 The chart can be customized using the form below. The date, base currency, and currencies displayed in the chart can all be adjusted. 
-![Chart Customization Form](img/customizeChartForm.png)
+![Customizing the Chart](img/exchange-rates.gif)
 
 ---
 
