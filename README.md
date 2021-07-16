@@ -1,6 +1,6 @@
 # World Currencies and Exchange Rates
 
-**NOTE: The free API used for this app has been sold to another company. Migration is in progress**
+**NOTE: The free API used for this app has been sold to another company. Migration is in progress.**
 
 ~~[View the live version on Vercel](https://currency-exchange-rates.vercel.app/)~~
 
