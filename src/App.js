@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { ChartDisplay } from './components/ChartDisplay';
 import { SelectDate } from './components/SelectDate';
 import { SelectBaseAndSymbols } from './components/SelectBaseAndSymbols';
+import { currencyNames } from './utilities/getCurrencyName';
 const DEFAULT_CURRENCY = 'EUR';
-const DEFAULT_URL = 'https://api.ratesapi.io/api/latest';
+const BASE_URL = 'https://api.exchangerate.host'
+const DEFAULT_URL = 'https://api.exchangerate.host/latest';
 
 export function App() {
   const [url, setUrl] = useState(DEFAULT_URL);
@@ -18,13 +20,13 @@ export function App() {
   function updateSymbols(symbolsString) {
     setSymbols(symbolsString);
     chartDate
-      ? setUrl(`https://api.ratesapi.io/api/${chartDate}?base=${baseCurrency}&symbols=${symbolsString}`)
-      : setUrl(`https://api.ratesapi.io/api/latest?base=${baseCurrency}&symbols=${symbolsString}`)
+      ? setUrl(`${BASE_URL}/${chartDate}?base=${baseCurrency}&symbols=${symbolsString}`)
+      : setUrl(`${BASE_URL}/latest?base=${baseCurrency}&symbols=${symbolsString}`)
   }
 
   function updateChartDate(date) {
     setChartDate(date);
-    setUrl(`https://api.ratesapi.io/api/${date}`);
+    setUrl(`${BASE_URL}/${date}`);
     setBaseCurrency(DEFAULT_CURRENCY);
     setSymbols(null);
   }
@@ -33,18 +35,18 @@ export function App() {
     setBaseCurrency(newBase);
 
     if (chartDate && symbols) {
-      setUrl(`https://api.ratesapi.io/api/${chartDate}?base=${newBase}&symbols=${symbols}`);
+      setUrl(`${BASE_URL}/${chartDate}?base=${newBase}&symbols=${symbols}`);
     } else if (chartDate) {
-      setUrl(`https://api.ratesapi.io/api/${chartDate}?base=${newBase}`);
+      setUrl(`${BASE_URL}/${chartDate}?base=${newBase}`);
     } else if (symbols) {
-      setUrl(`https://api.ratesapi.io/api/latest?base=${newBase}&symbols=${symbols}`);
+      setUrl(`${BASE_URL}/latest?base=${newBase}&symbols=${symbols}`);
     } else {
-      setUrl(`https://api.ratesapi.io/api/latest?base=${newBase}`);
+      setUrl(`${BASE_URL}/latest?base=${newBase}`);
     }
   }
 
   function resetUrl() {
-    setUrl('https://api.ratesapi.io/api/latest');
+    setUrl(DEFAULT_URL);
     setBaseCurrency(DEFAULT_CURRENCY);
     setChartDate(null);
     setSymbols(null);
@@ -58,7 +60,9 @@ export function App() {
 
       const rates = Object.entries(json.rates).map(kv => {
         return {abbreviation: kv[0], rate: kv[1]};
-      }).sort((a, b) => a.abbreviation < b.abbreviation ? -1 : 1);
+      })
+        .sort((a, b) => a.abbreviation < b.abbreviation ? -1 : 1)
+        .filter(obj => currencyNames.hasOwnProperty(obj.abbreviation));
 
       const newData = {
         base: json.base,

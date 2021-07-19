@@ -14,7 +14,7 @@ export function SelectDate({updateChartDate, isLoading, data}) {
               disabled />
           : <input type="date" id="date"
               value={data.date}
-              min="1999-01-04" 
+              min="1999-02-01" 
               max={today}
               pattern="\d{4}-\d{2}-\d{2}"
               placeholder="yyyy-mm-dd"

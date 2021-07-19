@@ -1,4 +1,4 @@
-export function getCurrencyName(label) {
+function getCurrencyName(label) {
     return currencyNames[label];
 }
 
@@ -46,3 +46,5 @@ const currencyNames = {
     USD: 'US Dollar',
     ZAR: 'South African Rand'
 }
+
+export { getCurrencyName, currencyNames }
