@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getCurrencyName } from "../utilities/getCurrencyName";
 
 export function SelectBaseAndSymbols({updateSymbols, data, baseCurrency, updateBaseCurrency, isLoading, resetUrl}) {
-    const [currencies, setCurrencies] = React.useState(new Map(data.rates.map(rateObj => rateObj.abbreviation).map(s => [s, false])));
+    const [currencies, setCurrencies] = useState(new Map(data.rates.map(rateObj => rateObj.abbreviation).map(s => [s, false])));
   
     useEffect(() => {
       setCurrencies(new Map(data.rates.map(rateObj => rateObj.abbreviation).map(s => [s, false])));
-    }, [data.date])
+    }, [data.rates]);
     
     const toggleCurrency = (currencyName) => {
       const isCurrencySelected = currencies.get(currencyName);
